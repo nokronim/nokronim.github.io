@@ -651,6 +651,19 @@ body {
     }
 }
 
+@keyframes screen-shake {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-2px) translateY(1px); }
+    20% { transform: translateX(2px) translateY(-1px); }
+    30% { transform: translateX(-1px) translateY(2px); }
+    40% { transform: translateX(1px) translateY(-2px); }
+    50% { transform: translateX(-2px) translateY(1px); }
+    60% { transform: translateX(2px) translateY(-1px); }
+    70% { transform: translateX(-1px) translateY(2px); }
+    80% { transform: translateX(1px) translateY(-2px); }
+    90% { transform: translateX(-1px) translateY(1px); }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hamburger {
@@ -738,6 +751,7 @@ body {
     pointer-events: none;
     z-index: 10000;
     opacity: 0;
+    background: radial-gradient(ellipse at center, #1a202c 0%, #000000 100%);
 }
 
 .xwing {
@@ -755,16 +769,95 @@ body {
     animation: xwing-glow 0.5s ease-in-out infinite alternate;
 }
 
+/* Particle trail effects */
+.xwing::before,
+.xwing::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 20px;
+    background: linear-gradient(90deg, transparent, #00bfff, transparent);
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: engine-trail 0.1s linear infinite;
+}
+
+.xwing::before {
+    top: 8px;
+    left: -15px;
+    animation-delay: 0s;
+}
+
+.xwing::after {
+    bottom: 8px;
+    left: -15px;
+    animation-delay: 0.05s;
+}
+
+/* Stars background */
+.space-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: stars-move 20s linear infinite;
+}
+
+/* Laser effects */
+.laser {
+    position: absolute;
+    width: 2px;
+    height: 15px;
+    background: linear-gradient(90deg, transparent, #ff0000, transparent);
+    border-radius: 50%;
+    opacity: 0;
+    animation: laser-fire 0.8s ease-out;
+}
+
+.laser-1 {
+    top: 15%;
+    animation-delay: 1.5s;
+}
+
+.laser-2 {
+    top: 25%;
+    animation-delay: 1.7s;
+}
+
+.laser-3 {
+    top: 20%;
+    animation-delay: 2.1s;
+}
+
 @keyframes xwing-fly {
     0% {
         left: -100px;
         top: 20%;
         transform: rotate(-15deg) scale(0.8);
     }
+    25% {
+        left: 25vw;
+        top: 18%;
+        transform: rotate(-12deg) scale(0.9);
+    }
     50% {
         left: 50vw;
         top: 15%;
         transform: rotate(-10deg) scale(1);
+    }
+    75% {
+        left: 75vw;
+        top: 12%;
+        transform: rotate(-7deg) scale(0.8);
     }
     100% {
         left: calc(100vw + 100px);
@@ -782,6 +875,51 @@ body {
     }
 }
 
+@keyframes engine-trail {
+    0% {
+        transform: scaleX(1) scaleY(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scaleX(1.5) scaleY(1.2);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scaleX(0.8) scaleY(0.9);
+        opacity: 0.4;
+    }
+}
+
+@keyframes stars-move {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-200px);
+    }
+}
+
+@keyframes laser-fire {
+    0% {
+        left: -20px;
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    10% {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+    90% {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+    100% {
+        left: 100vw;
+        opacity: 0;
+        transform: scaleX(0);
+    }
+}
+
 @keyframes xwing-container-fade {
     0% {
         opacity: 1;
@@ -791,5 +929,75 @@ body {
     }
     100% {
         opacity: 0;
+    }
+} 
+
+/* Squadron X-wings */
+.xwing-squadron {
+    animation-duration: 5s;
+    animation-delay: 0.3s;
+}
+
+#xwing-2 {
+    animation-name: xwing-fly-2;
+}
+
+#xwing-3 {
+    animation-name: xwing-fly-3;
+}
+
+@keyframes xwing-fly-2 {
+    0% {
+        left: -120px;
+        top: 35%;
+        transform: rotate(-12deg) scale(0.7);
+    }
+    25% {
+        left: 20vw;
+        top: 33%;
+        transform: rotate(-10deg) scale(0.75);
+    }
+    50% {
+        left: 45vw;
+        top: 30%;
+        transform: rotate(-8deg) scale(0.8);
+    }
+    75% {
+        left: 70vw;
+        top: 28%;
+        transform: rotate(-6deg) scale(0.7);
+    }
+    100% {
+        left: calc(100vw + 100px);
+        top: 25%;
+        transform: rotate(-4deg) scale(0.5);
+    }
+}
+
+@keyframes xwing-fly-3 {
+    0% {
+        left: -140px;
+        top: 28%;
+        transform: rotate(-18deg) scale(0.6);
+    }
+    25% {
+        left: 15vw;
+        top: 26%;
+        transform: rotate(-15deg) scale(0.65);
+    }
+    50% {
+        left: 40vw;
+        top: 25%;
+        transform: rotate(-12deg) scale(0.7);
+    }
+    75% {
+        left: 65vw;
+        top: 23%;
+        transform: rotate(-9deg) scale(0.6);
+    }
+    100% {
+        left: calc(100vw + 100px);
+        top: 20%;
+        transform: rotate(-6deg) scale(0.4);
     }
 } 
