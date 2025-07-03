@@ -142,21 +142,7 @@ document.querySelectorAll('.skill-item').forEach(item => {
     });
 });
 
-// Add floating animation to hero image
-const heroImage = document.querySelector('.image-placeholder');
-if (heroImage) {
-    let floatDirection = 1;
-    
-    setInterval(() => {
-        const currentTransform = heroImage.style.transform || 'translateY(0px)';
-        const currentY = parseFloat(currentTransform.match(/translateY\(([^)]+)\)/)?.[1] || 0);
-        
-        if (currentY >= 10) floatDirection = -1;
-        if (currentY <= -10) floatDirection = 1;
-        
-        heroImage.style.transform = `translateY(${currentY + (floatDirection * 0.5)}px)`;
-    }, 50);
-}
+// Floating animation removed - image stays static
 
 // Add progress bar for page scroll
 const progressBar = document.createElement('div');
