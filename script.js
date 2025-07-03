@@ -148,146 +148,24 @@ document.querySelectorAll('.skill-item').forEach(item => {
 document.addEventListener('DOMContentLoaded', () => {
     const xwingContainer = document.getElementById('xwing-container');
     const xwing = document.querySelector('.xwing');
-    const xwing2 = document.getElementById('xwing-2');
-    const xwing3 = document.getElementById('xwing-3');
     
     if (xwingContainer && xwing) {
-        // Create audio context for sound effects
-        let audioContext;
-        let engineSound;
-        
-        // Initialize Web Audio API
-        const initAudio = () => {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // Create engine sound effect
-                const createEngineSound = () => {
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    const filter = audioContext.createBiquadFilter();
-                    
-                    oscillator.connect(filter);
-                    filter.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.frequency.setValueAtTime(80, audioContext.currentTime);
-                    oscillator.frequency.exponentialRampToValueAtTime(120, audioContext.currentTime + 1);
-                    oscillator.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 4);
-                    
-                    filter.frequency.setValueAtTime(400, audioContext.currentTime);
-                    filter.Q.setValueAtTime(1, audioContext.currentTime);
-                    
-                    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                    gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.5);
-                    gainNode.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 3);
-                    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 4);
-                    
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 4);
-                };
-                
-                engineSound = createEngineSound;
-            } catch (e) {
-                console.log('Web Audio API not supported');
-            }
-        };
-        
         // Show the X-wing container
         setTimeout(() => {
             xwingContainer.style.opacity = '1';
             
-            // Initialize audio on first user interaction
-            if (audioContext && audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
-            
-            // Play engine sound if available
-            if (engineSound) {
-                engineSound();
-            }
-            
-            // Start the flying animation for main X-wing
+            // Start the flying animation
             xwing.style.animation = 'xwing-fly 4s ease-out forwards';
             
-            // Start squadron X-wings with delays
-            setTimeout(() => {
-                if (xwing2) {
-                    xwing2.style.animation = 'xwing-fly-2 5s ease-out forwards';
-                }
-            }, 300);
-            
-            setTimeout(() => {
-                if (xwing3) {
-                    xwing3.style.animation = 'xwing-fly-3 5s ease-out forwards';
-                }
-            }, 600);
-            
-            // Trigger laser effects
-            setTimeout(() => {
-                const lasers = document.querySelectorAll('.laser');
-                lasers.forEach((laser, index) => {
-                    setTimeout(() => {
-                        laser.style.opacity = '1';
-                        laser.style.animation = `laser-fire 0.8s ease-out`;
-                    }, index * 200);
-                });
-            }, 1500);
-            
-            // Add screen shake effect during laser fire
-            setTimeout(() => {
-                document.body.style.animation = 'screen-shake 0.5s ease-in-out';
-                setTimeout(() => {
-                    document.body.style.animation = '';
-                }, 500);
-            }, 2000);
-            
             // Fade out the container
-            xwingContainer.style.animation = 'xwing-container-fade 5s ease-out forwards';
+            xwingContainer.style.animation = 'xwing-container-fade 4s ease-out forwards';
             
             // Remove the element after animation completes
             setTimeout(() => {
                 xwingContainer.remove();
-            }, 5000);
+            }, 4000);
             
         }, 500); // Small delay before X-wing appears
-        
-        // Initialize audio system
-        initAudio();
-        
-        // Add click event to trigger X-wing on demand (Easter egg)
-        let xwingClickCount = 0;
-        document.addEventListener('click', (e) => {
-            if (e.ctrlKey && e.shiftKey) {
-                xwingClickCount++;
-                if (xwingClickCount >= 3) {
-                    triggerXwingSequence();
-                    xwingClickCount = 0;
-                }
-            }
-        });
-        
-        // Function to trigger X-wing sequence manually
-        const triggerXwingSequence = () => {
-            if (document.getElementById('xwing-container')) return; // Don't create if already exists
-            
-            // Re-create the X-wing container
-            const newContainer = xwingContainer.cloneNode(true);
-            newContainer.style.opacity = '0';
-            document.body.appendChild(newContainer);
-            
-            // Reset animations
-            const newXwings = newContainer.querySelectorAll('.xwing');
-            newXwings.forEach(wing => {
-                wing.style.animation = '';
-            });
-            
-            // Trigger the sequence again
-            setTimeout(() => {
-                newContainer.style.opacity = '1';
-                // ... animation logic here
-            }, 100);
-        };
     }
 });
 
