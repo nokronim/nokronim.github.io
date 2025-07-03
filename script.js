@@ -144,6 +144,31 @@ document.querySelectorAll('.skill-item').forEach(item => {
 
 // Floating animation removed - image stays static
 
+// X-wing Star Wars Animation on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const xwingContainer = document.getElementById('xwing-container');
+    const xwing = document.querySelector('.xwing');
+    
+    if (xwingContainer && xwing) {
+        // Show the X-wing container
+        setTimeout(() => {
+            xwingContainer.style.opacity = '1';
+            
+            // Start the flying animation
+            xwing.style.animation = 'xwing-fly 4s ease-out forwards';
+            
+            // Fade out the container
+            xwingContainer.style.animation = 'xwing-container-fade 4s ease-out forwards';
+            
+            // Remove the element after animation completes
+            setTimeout(() => {
+                xwingContainer.remove();
+            }, 4000);
+            
+        }, 500); // Small delay before X-wing appears
+    }
+});
+
 // Add progress bar for page scroll
 const progressBar = document.createElement('div');
 progressBar.style.position = 'fixed';
